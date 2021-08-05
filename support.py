@@ -1,4 +1,4 @@
-"""Module created by TerraBoii for generating random elements based on amount and max number"""
+"""Module created by TerraBoii where you can find some useful functions."""
 
 
 def rlc(amount=2, limit=100):
@@ -30,7 +30,7 @@ def all_divisors(number: int):
 
 
 def _gcd(_list: list[int]):
-    """This function can find Greatest Common Divisor of multiple numbers, new"""
+    """This function can find Greatest Common Divisor of multiple numbers"""
     answer = 1  # Is our answer, if it isn`t changed then it will be 1
     divisors = []  # Is a container for our divisors will be expended
     for element in _list:  # Going through list
@@ -54,9 +54,11 @@ def _gcd(_list: list[int]):
 
 
 def _gcd_(_list: list[int]):
-    """This function can find Greatest Common Divisor of multiple numbers, new"""
+    """This function can find Greatest Common Divisor of multiple numbers"""
     answer = 1  # Is our answer, if it isn`t changed then it will be 1
     divisors = []  # Is a container for our divisors will be expended
+    smallest = min(_list)
+    print(smallest)
     for element in _list:  # Going through list
         result = []
         for runner in range(1, int(element ** (1 / 2)) + 1):
