@@ -1,4 +1,4 @@
-from support import _gcd, rlc
+from support import _gcd, rlc, _gcd_
 from random import randint
 
 
@@ -11,11 +11,10 @@ def main():
         lst = rlc(amount, limit)
         print("Числа -> ", *lst, sep=", ")
         print("НОД -> ", _gcd(lst))
-        gcd_list = []
-        for _ in range(2):
-            gcd_list.append(int(input("Введите натуральное число -> ")))
+        gcd_list = [1234567890123456789, 123456789]
         print('Числа -> ', *gcd_list, sep=", ")
         print("НОД -> ", _gcd(gcd_list))
+        print("НОД -> ", _gcd_(gcd_list))
     except ValueError:
         print("Не правильный ввод, нужно вводить число, которое > 0.")
 
