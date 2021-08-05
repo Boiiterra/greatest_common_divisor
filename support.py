@@ -13,24 +13,6 @@ def rlc(amount=2, limit=100):
     return lst
 
 
-def _gcd_(_list: list[int]):
-    """This function can find Greatest Common Divisor of multiple numbers, old"""
-    answer = 1  # Is our answer, if it isn`t changed then it will be 1
-    divisors = []  # Is a container for our divisors will be expended
-    # support = []  # This list is used to store another divisors
-    lowest = min(_list)  # Is used to make this function lighter so that we won`t store a lot of data
-    for element in _list:  # Going through list
-        for divisor in range(2, int(lowest / 2) + 1):  # We will start from two because our answer is 1 by default
-            if element % divisor == 0:
-                divisors.append(divisor)
-        if element % lowest == 0:
-            divisors.append(lowest)
-    for element in set(divisors):  # Using convertor to get rid of clones and to be faster
-        if divisors.count(element) == len(_list) and answer < element:  # Checking if we need to change the answer
-            answer = element
-    return answer
-
-
 def all_divisors(number: int):
     """Returns list of every divisor given number has."""
     result = []
