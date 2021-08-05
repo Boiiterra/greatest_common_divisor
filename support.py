@@ -51,4 +51,27 @@ def _gcd(_list: list[int]):
         if divisors.count(_divisor) == len(_list) and answer < _divisor:  # Checking if we need to change the answer
             answer = _divisor
     return answer
-    # TODO: make it faster
+
+
+def _gcd_(_list: list[int]):
+    """This function can find Greatest Common Divisor of multiple numbers, new"""
+    answer = 1  # Is our answer, if it isn`t changed then it will be 1
+    divisors = []  # Is a container for our divisors will be expended
+    for element in _list:  # Going through list
+        result = []
+        for runner in range(1, int(element ** (1 / 2)) + 1):
+            if element % runner == 0:
+                result.append(runner)
+        support = []  # This list is used to store another divisors
+        for runner in result:
+            support.append(int(element / runner))
+        if support[-1] == element ** (1 / 2):
+            support.pop()
+        result.extend(support)
+        result = sorted(list(set(result)))
+        print(result)
+        divisors.extend(result)
+    for _divisor in set(divisors):  # Using convertor to get rid of clones and to be faster
+        if divisors.count(_divisor) == len(_list) and answer < _divisor:  # Checking if we need to change the answer
+            answer = _divisor
+    return answer
