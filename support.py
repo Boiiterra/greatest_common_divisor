@@ -18,18 +18,14 @@ def _gcd(_list: list[int]):
     answer = 1  # Is our answer, if it isn`t changed then it will be 1
     divisors = []  # Is a container for our divisors will be expended
     smallest = min(_list)
-    result = []
     for runner in range(1, int(smallest ** (1 / 2)) + 1):
         if smallest % runner == 0:
-            result.append(runner)
+            divisors.append(runner)
     support = []  # This list is used to store another divisors
-    for runner in result:
+    for runner in divisors:
         support.append(int(smallest / runner))
-    if support[-1] == smallest ** (1 / 2):
-        support.pop()
-    result.extend(support)
-    result = sorted(list(set(result)))
-    divisors.extend(result)
+    divisors.extend(support)
+    divisors = sorted(list(set(divisors)))
     for divisor in divisors:
         counter = 0
         for element in _list:
