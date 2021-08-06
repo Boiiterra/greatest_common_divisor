@@ -1,4 +1,4 @@
-from support import rlc, _gcd
+from support import int_list_creator, _gcd
 from random import randint
 
 
@@ -8,7 +8,7 @@ def main():
         print("НОД - наибольший общий делитель.")
         limit = int(input("Введите потолок генерируемых чисел -> "))
         amount = randint(2, 20)
-        lst = rlc(amount, limit)
+        lst = int_list_creator(amount, limit)
         print("Числа -> ", *lst, sep=", ")
         print("НОД -> ", _gcd(lst))
         gcd_list = [1234567890123456789, 123456789]
