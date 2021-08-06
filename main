@@ -4,20 +4,15 @@ from random import randint
 
 def main():
     try:
-        print("Данная программа генерирует(берёт из воздуха) от 2-х до 20-ти чисел и находит их НОД.")
-        print("НОД - наибольший общий делитель.")
-        limit = int(input("Введите потолок генерируемых чисел -> "))
+        print("This program generates from 2 up to 20 integers and finds their gcd.")
+        print("GCD - greatest common divisor.")
+        limit = int(input("Enter maximum number -> "))
         amount = randint(2, 20)
         lst = int_list_creator(amount, limit)
-        print("Числа -> ", *lst, sep=", ")
-        print("НОД -> ", _gcd(lst))
-        gcd_list = [1234567890123456789, 123456789]
-        gcd_list_1 = [909909, 303]
-        print("НОД -> ", _gcd(gcd_list_1))
-        print('Числа -> ', *gcd_list, sep=", ")
-        print("НОД -> ", _gcd(gcd_list))
+        print("Integers -> ", *lst, sep=", ")
+        print("GCD -> ", _gcd(lst))
     except ValueError:
-        print("Не правильный ввод, нужно вводить число, которое > 0.")
+        print("Incorrect input, you are supposed to enter an integer, which is bigger than 0.")
 
 
 if __name__ == '__main__':
