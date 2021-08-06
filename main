@@ -12,7 +12,7 @@ def main():
         print("Integers -> ", *lst, sep=", ")
         print("GCD -> ", _gcd(lst))
     except ValueError:
-        print("Incorrect input, you are supposed to enter an integer, which is bigger than 0.")
+        print("Incorrect input, you are supposed to enter single integer, which is bigger than 0.")
 
 
 if __name__ == '__main__':
