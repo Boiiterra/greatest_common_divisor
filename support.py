@@ -31,6 +31,6 @@ def _gcd(_list: list[int]):
             if element % divisor == 0:
                 counter += 1
         else:  # When we finished going through list we check if we need to change the greatest common divisor
-            if counter == len(_list) and divisor > answer:  #
+            if counter == len(_list) and divisor > answer:  # Checking if we need to change the answer
                 answer = divisor
     return answer
