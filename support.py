@@ -17,20 +17,20 @@ def _gcd(_list: list[int]):
     answer = 0  # This variable is going to store gcd
     divisors = []  # Is a container for our divisors, will be expended
     smallest = min(_list)  # To make this function faster we will find every divisor the smallest has
-    for runner in range(1, int(smallest ** (1 / 2)) + 1):  # Using square method to find divisors
-        if smallest % runner == 0:
-            divisors.append(runner)
+    for number in range(1, int(smallest ** (1 / 2)) + 1):  # Using square method to find divisors
+        if smallest % number == 0:
+            divisors.append(number)
     support = []  # This list is used to store another divisors
-    for runner in divisors:  # Here we use first list of divisors to finish full one
-        support.append(int(smallest / runner))
-    divisors.extend(support)  # Creating full list where all divisors are stored
+    for divisor in divisors:  # Here we use first list of divisors to finish full one
+        support.append(int(smallest / divisor))
+    divisors.extend(support)  # Finishing list with adding last divisors
     divisors = sorted(list(set(divisors)))  # Deleting clones, we don`t need them
     for divisor in divisors:  # in this block we are looking for greatest common divisor
         counter = 0  # This variable used to count how many element could be divided by divisor
         for element in _list:
             if element % divisor == 0:
                 counter += 1
-        else:  # When we finished going through list we check if we need to change the greatest common divisor
+        else:  # When we finished going through _list given by user we check if we need to change the greatest common divisor
             if counter == len(_list) and divisor > answer:  # Checking if we need to change the answer
                 answer = divisor
     return answer
