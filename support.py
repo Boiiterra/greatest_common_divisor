@@ -30,7 +30,7 @@ def _gcd(_list: list[int]):
         for element in _list:
             if element % divisor == 0:
                 counter += 1
-        else:  # When we finished going through _list given by user we check if we need to change the greatest common divisor
+        else:  # When we finished going through list given by user we check if we need to change the gcd
             if counter == len(_list) and divisor > answer:  # Checking if we need to change the answer
                 answer = divisor
     return answer
