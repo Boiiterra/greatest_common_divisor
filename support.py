@@ -24,13 +24,14 @@ def _gcd(_list: list[int]):
     for divisor in divisors:  # Here we use first list of divisors to finish full one
         support.append(int(smallest / divisor))
     divisors.extend(support)  # Finishing list with adding last divisors
-    divisors = sorted(list(set(divisors)))  # Deleting clones, we don`t need them
+    divisors = sorted(list(set(divisors)), reverse=True)  # Deleting clones, we don`t need them
     for divisor in divisors:  # in this block we are looking for greatest common divisor
         counter = 0  # This variable used to count how many element could be divided by divisor
         for element in _list:
             if element % divisor == 0:
                 counter += 1
         else:  # When we finished going through list given by user we check if we need to change the gcd
-            if counter == len(_list) and divisor > answer:  # Checking if we need to change the answer
+            if counter == len(_list):  # Checking if we need to change the answer
                 answer = divisor
+                break
     return answer
