@@ -4,12 +4,8 @@
 def int_list_creator(amount=2, limit=100):
     """Creates list with random numbers (from 1 to limit that is given by user, default is 100.
     Amount of elements is given by the user, default is 2."""
-    lst = []  # List that is going to store generated numbers
     from random import randint as rng  # importing randint for integer generation
-    for counter in range(0, amount):  # populating list using for loop
-        number = rng(1, limit)
-        lst.append(number)
-    return lst
+    return [rng(1, limit) for _ in range(amount)]  # Returning list with random ints in it based on given arguments
 
 
 def _gcd(_list: list[int]):
