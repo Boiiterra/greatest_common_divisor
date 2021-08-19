@@ -21,7 +21,7 @@ def _gcd(_list: list[int]):
         support.append(int(smallest / divisor))
     divisors.extend(support)  # Finishing list with adding last divisors
     divisors = sorted(list(set(divisors)), reverse=True)  # Deleting clones and making list reversed
-    _list.pop(_list.index(smallest))  # Deleting smallest element because we know it's divisors
+    _list.pop(_list.index(smallest))  # Deleting smallest element because we know all it's divisors
     for divisor in divisors:  # in this block we are looking for greatest common divisor
         counter = 0
         for element in _list:
