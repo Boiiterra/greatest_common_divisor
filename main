@@ -1,19 +1,196 @@
+from tkinter import *
+from tkinter.messagebox import showerror
 from support import int_list_creator, _gcd
 from random import randint
 
 
+def error_message(_reason):
+    showerror(title="Error", message="Incorrect input, you are supposed to enter single integer bigger than 0."
+                                     f"\nBut you entered -> '{_reason}'.")
+
+
+class MainAppBody(Tk):
+
+    def __init__(self, *args, **kwargs):
+        Tk.__init__(self, *args, **kwargs)
+        self.geometry("500x250")
+        self.title("GCDapp")
+        self.iconbitmap("icon.ico")
+        self.resizable(0, 0)
+        container = Frame(self, bg="black")
+        container.pack(side="top", fill="both", expand=True)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.columnconfigure(0, weight=1)
+
+        self.frames = {}
+
+        frame_collection = (StartPage, GeneratorHome, CustomHome, FullControlPage, MaxNumberControlPage)
+
+        for F in frame_collection:
+            frame = F(container, self)
+
+            self.frames[F] = frame
+
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(StartPage)
+
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
+
+
+class StartPage(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg="Black")
+
+        text = "This program generates from 2 up to 20 (Generator)\n" \
+               "or takes user's (Custom)\n" \
+               "integers and finds their greatest common divisor,"
+
+        label = Label(self, text=text, font=("Times New Roman", 16), bg="black", fg="#00ff00")
+        label.pack(padx=5, pady=10, fill=BOTH)
+
+        generator_home_button = Button(self, text="Generator", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 25),
+                                       activeforeground="green", activebackground="black", bd=0,
+                                       command=lambda: controller.show_frame(GeneratorHome))
+        generator_home_button.pack(fill=BOTH)
+
+        custom_home_button = Button(self, text="Custom", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 25),
+                                    activeforeground="green", activebackground="black", bd=0,
+                                    disabledforeground="black",
+                                    command=lambda: controller.show_frame(CustomHome), state=DISABLED)
+        custom_home_button.pack(side=BOTTOM, fill=BOTH)
+
+
+class GeneratorHome(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg="Black")
+
+        text = "Welcome to generator.\nHere you can pick generator type:"
+
+        label = Label(self, text=text, font=("Times New Roman", 18), bg="black", fg="#00ff00")
+        label.pack(padx=5, pady=10, fill=BOTH)
+
+        button1 = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+                         activeforeground="green", activebackground="black", bd=0,
+                         command=lambda: controller.show_frame(StartPage))
+        button1.pack(fill=BOTH, side=BOTTOM)
+
+        button2 = Button(self, text="full control", bg="#0a0c0a", fg="#00ff00", font=("Ink Free", 20),
+                         activeforeground="green", activebackground="black", bd=0, disabledforeground="black",
+                         command=lambda: controller.show_frame(FullControlPage), state=DISABLED)
+        button2.pack(side=BOTTOM, fill=BOTH, pady=1)
+
+        button3 = Button(self, text="max number control", bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
+                         activeforeground="green", activebackground="black", bd=0, disabledforeground="black",
+                         command=lambda: controller.show_frame(MaxNumberControlPage))
+        button3.pack(fill=BOTH)
+
+
+class FullControlPage(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg="black")
+
+        text = ""
+
+
+class MaxNumberControlPage(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg="black")
+        self.controller = controller
+
+        text = "Enter largest possible integer to continue." \
+               "\nAfter pressing 'Confirm' program will check" \
+               "\nif input is valid else it will show you an error."
+        text_modified = "This will not appear"
+
+        global label_for_modification
+        label_for_modification = Label(self, text=text, font=("Times New Roman", 16), bg="black", fg="#00ff00")
+        label_for_modification.pack(padx=5, pady=10, fill=BOTH)
+
+        def results_window():
+            label_for_modification.configure(text=text_modified)
+
+        def check_if_valid():
+            _input = entry.get()
+            try:
+                _input = int(_input)
+                if _input == 0:
+                    raise ValueError("invalid literal for int() with base 10: '0'")
+                return True
+            except ValueError:
+                error_message(_input)
+                entry.delete(0, END)
+
+        entry = Entry(self, bg="black", fg="#00ff00", font=("Times New Roman", 20),
+                      selectbackground="white", selectforeground="#ff00ff",
+                      width=250, highlightthickness=1, insertbackground="white")
+        entry.config(highlightbackground="green", highlightcolor="light green")
+        entry.pack()
+
+        confirm_button = Button(self, bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+                                activeforeground="green", activebackground="black", bd=0, text="Confirm",
+                                command=lambda: results_window if check_if_valid() else None)
+        confirm_button.pack(fill=BOTH)
+
+        def clicked_return_button():
+            entry.delete(0, END)
+            controller.show_frame(GeneratorHome)
+
+        return_button = Button(self, text="Return to previous page", bg="#0a0a0a",
+                               fg="#00ff00", font=("Ink Free", 20), command=clicked_return_button,
+                               activeforeground="green", activebackground="black", bd=0)
+        return_button.pack(fill=BOTH, side=BOTTOM)
+
+
+
+
+
+
+
+class CustomHome(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg="Black")
+
+        label = Label(self, text="Custom", font=("Verdana", 35))
+        label.grid(row=1, column=4, padx=10, pady=10)
+
+        button1 = Button(self, text="Home",
+                         command=lambda: controller.show_frame(StartPage))
+        button1.grid(row=1, column=1, padx=10, pady=10)
+
+        button2 = Button(self, text="Generator",
+                         command=lambda: controller.show_frame(GeneratorHome))
+        button2.grid(row=2, column=1, padx=10, pady=10)
+
+
 def main():
+    window = Tk()
+    window.geometry("100x20")
+    window.config(bg="black")
+    window.title("GCDapp")
+
+    # page_1(window)
+
     try:
         print("This program generates from 2 up to 20 integers and finds their gcd.")
         print("GCD - greatest common divisor.")
-        limit = int(input("Enter maximum number -> "))
-        amount = randint(2, 20)
-        lst = int_list_creator(amount, limit)
-        print("Integers -> ", *lst, sep=", ")
-        print("GCD -> ", _gcd(lst))
+        # print("Integers -> ", *lst, sep=", ")
+        # print("GCD -> ", _gcd(lst))
     except ValueError:
-        print("Incorrect input, you are supposed to enter single integer, which is bigger than 0.")
+        error_message(None)
+
+    window.mainloop()
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    app = MainAppBody()
+    app.mainloop()
