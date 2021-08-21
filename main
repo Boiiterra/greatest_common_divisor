@@ -1,12 +1,13 @@
 from tkinter import *
 from tkinter.messagebox import showerror
 from support import int_list_creator, _gcd
+from os import remove
 from random import randint
 
 
 def error_message(_reason):
     showerror(title="Error", message="Incorrect input, you are supposed to enter single integer bigger than 0."
-                                     f"\nBut you entered -> '{_reason}'.")
+                                     f"\nBut you entered -> '{_reason}' and it is {type(_reason)}'.")
 
 
 class MainAppBody(Tk):
@@ -25,14 +26,15 @@ class MainAppBody(Tk):
 
         self.frames = {}
 
-        frame_collection = (StartPage, GeneratorHome, CustomHome, FullControlPage, MaxNumberControlPage)
+        frame_collection = (StartPage, GeneratorHome, CustomHome, FullControlPage, MaxNumberControlPage,
+                            MaxNumberResultsPage)
 
-        for F in frame_collection:
-            frame = F(container, self)
+        for frame in frame_collection:
+            current_frame = frame(container, self)
 
-            self.frames[F] = frame
+            self.frames[frame] = current_frame
 
-            frame.grid(row=0, column=0, sticky="nsew")
+            current_frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(StartPage)
 
@@ -108,14 +110,9 @@ class MaxNumberControlPage(Frame):
         text = "Enter largest possible integer to continue." \
                "\nAfter pressing 'Confirm' program will check" \
                "\nif input is valid else it will show you an error."
-        text_modified = "This will not appear"
 
-        global label_for_modification
-        label_for_modification = Label(self, text=text, font=("Times New Roman", 16), bg="black", fg="#00ff00")
-        label_for_modification.pack(padx=5, pady=10, fill=BOTH)
-
-        def results_window():
-            label_for_modification.configure(text=text_modified)
+        label = Label(self, text=text, font=("Times New Roman", 16), bg="black", fg="#00ff00")
+        label.pack(padx=5, pady=10, fill=BOTH)
 
         def check_if_valid():
             _input = entry.get()
@@ -123,6 +120,12 @@ class MaxNumberControlPage(Frame):
                 _input = int(_input)
                 if _input == 0:
                     raise ValueError("invalid literal for int() with base 10: '0'")
+                entry.delete(0, END)
+                entry.insert(0, '')
+                file = open("temporary_storage.txt", 'w')
+                file.seek(0)
+                file.write(str(_input))
+                file.close()
                 return True
             except ValueError:
                 error_message(_input)
@@ -136,7 +139,8 @@ class MaxNumberControlPage(Frame):
 
         confirm_button = Button(self, bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
                                 activeforeground="green", activebackground="black", bd=0, text="Confirm",
-                                command=lambda: results_window if check_if_valid() else None)
+                                command=lambda: controller.show_frame(MaxNumberResultsPage)
+                                if check_if_valid() else None)
         confirm_button.pack(fill=BOTH)
 
         def clicked_return_button():
@@ -149,9 +153,52 @@ class MaxNumberControlPage(Frame):
         return_button.pack(fill=BOTH, side=BOTTOM)
 
 
+class MaxNumberResultsPage(Frame):
 
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg="black")
 
+        def getting_results():
+            file = open('temporary_storage.txt', 'r')
+            limit = file.read()
+            file.close()
+            remove("temporary_storage.txt")
+            amount = randint(2, 20)
+            text_area.delete("1.0", END)
+            results = int_list_creator(amount, int(limit))
+            string_results = ', '.join(map(str, results))
+            text_area.insert('0.0', "generated numbers:\n")
+            text_area.insert(END, string_results)
+            text_area.insert(END, "\nGreatest common divisor: ")
+            text_area.insert(END, _gcd(results))
+            text_area.config(state=DISABLED)
+            home_button.config(state=ACTIVE)
+            launch_button.config(state=DISABLED)
 
+        def return_to_home():
+            text_area.config(state=NORMAL)
+            text_area.delete("1.0", END)
+            text_area.insert('0.0', text)
+            home_button.config(state=DISABLED)
+            launch_button.config(state=ACTIVE)
+            controller.show_frame(StartPage)
+
+        text = 'Press "Finish" button to get results, or type here for fun'
+
+        text_area = Text(self, font=("Times New Roman", 13), bg="black", fg="#00ff00",
+                         width=55, height=6, wrap=WORD)
+        text_area.insert("0.0", text)
+        text_area.pack(padx=5, pady=10)
+
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+                             activeforeground="green", activebackground="black", bd=0, state=DISABLED,
+                             command=return_to_home, disabledforeground="black")
+        home_button.pack(fill=BOTH, side=BOTTOM)
+
+        launch_button = Button(self, text="Finish", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+                               activeforeground="green", activebackground="black", bd=0,
+                               command=getting_results, disabledforeground="black")
+        launch_button.pack(fill=BOTH, side=BOTTOM, pady=1)
 
 
 class CustomHome(Frame):
@@ -171,26 +218,6 @@ class CustomHome(Frame):
         button2.grid(row=2, column=1, padx=10, pady=10)
 
 
-def main():
-    window = Tk()
-    window.geometry("100x20")
-    window.config(bg="black")
-    window.title("GCDapp")
-
-    # page_1(window)
-
-    try:
-        print("This program generates from 2 up to 20 integers and finds their gcd.")
-        print("GCD - greatest common divisor.")
-        # print("Integers -> ", *lst, sep=", ")
-        # print("GCD -> ", _gcd(lst))
-    except ValueError:
-        error_message(None)
-
-    window.mainloop()
-
-
 if __name__ == '__main__':
-    # main()
     app = MainAppBody()
     app.mainloop()
