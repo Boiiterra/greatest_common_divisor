@@ -248,10 +248,11 @@ class FullControlPage(Frame):
             _input_str = entry.get()
             try:
                 integers = list(map(int, _input_str.split(', ')))
-                if integers[1] < 2:
-                    raise AmountValueError(f'{integers[1]}')
-                if 0 in integers and len(integers) == 2:
-                    raise ValueError(f"invalid literal for int() with base 10: '0' '{integers.index(0)}'")
+                if len(integers) == 2:
+                    if integers[1] < 2:
+                        raise AmountValueError(f'{integers[1]}')
+                    elif 0 in integers:
+                        raise ValueError(f"invalid literal for int() with base 10: '0' '{integers.index(0)}'")
                 if len(integers) != 2:
                     raise AmountError(f"{len(integers)}")
                 entry.delete(0, END)
