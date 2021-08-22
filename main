@@ -52,7 +52,7 @@ class MainAppBody(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
         self.geometry("500x250")
-        self.title("GCDapp")
+        self.title("GCD app")
         self.iconbitmap("icon.ico")
         self.resizable(0, 0)
         container = Frame(self, bg="black")
