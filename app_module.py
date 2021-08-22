@@ -197,7 +197,7 @@ class MaxNumberResultsPage(Frame):
             text_area.delete("1.0", END)
             results = int_list_creator(amount, int(limit))
             string_results = ', '.join(map(str, results))
-            text_area.insert('0.0', "Generated numbers:\n")
+            text_area.insert('0.0', f"Generated {amount} numbers in range from 1 to {limit}:\n")
             text_area.insert(END, string_results)
             text_area.insert(END, "\nGreatest common divisor: ")
             text_area.insert(END, str(_gcd(results)) + '\n')
@@ -309,7 +309,7 @@ class FullControlResultsPage(Frame):
             file.close()
             remove("temporary_storage.txt")
             text_area.delete("1.0", END)
-            text_area.insert('0.0', "Generated numbers:\n")
+            text_area.insert('0.0', f"Generated {arguments[1]} numbers in range from 1 to {arguments[0]}:\n")
             text_area.insert(END, ', '.join(map(str, results)))
             text_area.insert(END, "\nGreatest common divisor: ")
             text_area.insert(END, str(_gcd(results)) + '\n')
@@ -379,12 +379,13 @@ class CustomMainPage(Frame):
                 file.close()
                 return True
             except ValueError as reason:
+                text_area.delete('0.0', END)
                 if str(reason)[41:42] == "0":
                     integer_value_error_message(str(reason)[41:42], int(str(reason)[45:-1]))
                 else:
                     integer_value_error_message(str(reason)[41:42])
-                text_area.delete('0.0', END)
             except AmountError as error_message_fragment:
+                text_area.delete("1.0", END)
                 amount_error_message(error_message_fragment, "custom")
 
         confirm_button = Button(self, text="Confirm", bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
