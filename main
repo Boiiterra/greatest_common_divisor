@@ -9,6 +9,10 @@ class IntegerValueError(Exception):
     pass
 
 
+class AmountError(Exception):
+    pass
+
+
 class AmountValueError(Exception):
     pass
 
@@ -25,13 +29,22 @@ def integer_value_error_message(_reason, index=None):
 
 def amount_value_error_message(_reason):
     message = 'Incorrect input, you are supposed to enter single integer bigger than 1.' \
-              f'\nBut you entered -> {_reason}'
+              f'\nBut you entered -> {_reason} in position 2, index -> 1.'
     showerror(title="Error", message=message)
 
 
-def amount_error_message():
-    showerror(title="Error", message="Incorrect input, you are supposed to enter multiple integers "
-                                     "(e.g. 12, 6, 24).\nBut you entered only one.")
+def amount_error_message(amount, _type: str):
+    word = example = ""
+    if _type == "full":
+        word = "two"
+        example = "120, 2"
+    elif _type == "custom":
+        word = "multiple"
+        example = "12, 6, 24"
+    message = f"Incorrect input, you are supposed to enter {word} integers " \
+              f"\n(e.g. {example}). First argument is max possible integer,\nsecond - amount" \
+              f"\nBut you entered only {amount}."
+    showerror(title="Error", message=message)
 
 
 class MainAppBody(Tk):
@@ -50,8 +63,8 @@ class MainAppBody(Tk):
 
         self.frames = {}
 
-        frame_collection = (StartPage, GeneratorHome, CustomMainPage, FullControlMaxNumberPage, MaxNumberControlPage,
-                            MaxNumberResultsPage, CustomResultsPage)
+        frame_collection = (StartPage, GeneratorHome, CustomMainPage, FullControlPage, MaxNumberControlPage,
+                            MaxNumberResultsPage, CustomResultsPage, FullControlResultsPage)
 
         for frame in frame_collection:
             current_frame = frame(container, self)
@@ -108,10 +121,10 @@ class GeneratorHome(Frame):
 
         full_ctrl_page = Button(self, text="full control", bg="#0a0c0a", fg="#00ff00", font=("Ink Free", 20),
                                 activeforeground="green", activebackground="black", bd=0, disabledforeground="black",
-                                command=lambda: controller.show_frame(FullControlMaxNumberPage), state=DISABLED)
+                                command=lambda: controller.show_frame(FullControlPage))
         full_ctrl_page.pack(side=BOTTOM, fill=BOTH, pady=1)
 
-        max_num_page = Button(self, text="max number control", bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
+        max_num_page = Button(self, text="max number control", bg="#0c0a0a", fg="#00ff00", font=("Ink Free", 20),
                               activeforeground="green", activebackground="black", bd=0, disabledforeground="black",
                               command=lambda: controller.show_frame(MaxNumberControlPage))
         max_num_page.pack(fill=BOTH)
@@ -145,8 +158,8 @@ class MaxNumberControlPage(Frame):
                 file.close()
                 return True
             except IntegerValueError:
-                integer_value_error_message(_input)
                 entry.delete(0, END)
+                integer_value_error_message(_input)
 
         entry = Entry(self, bg="black", fg="#00ff00", font=("Times New Roman", 20),
                       selectbackground="white", selectforeground="#ff00ff",
@@ -219,11 +232,10 @@ class MaxNumberResultsPage(Frame):
         launch_button.pack(fill=BOTH, side=BOTTOM, pady=1)
 
 
-class FullControlMaxNumberPage(Frame):
+class FullControlPage(Frame):
 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg="black")
-        self.controller = controller
 
         text = "Enter largest possible integer and amount to continue." \
                "\n(e.g. 120, 2) After pressing 'Continue' program" \
@@ -233,21 +245,33 @@ class FullControlMaxNumberPage(Frame):
         label.pack(padx=5, pady=10, fill=BOTH)
 
         def check_if_valid():
-            _input = entry.get()
+            _input_str = entry.get()
             try:
-                _input = int(_input)
-                if _input == 0:
-                    raise ValueError("invalid literal for int() with base 10: '0'")
+                integers = list(map(int, _input_str.split(', ')))
+                if integers[1] < 2:
+                    raise AmountValueError(f'{integers[1]}')
+                if 0 in integers and len(integers) == 2:
+                    raise ValueError(f"invalid literal for int() with base 10: '0' '{integers.index(0)}'")
+                if len(integers) != 2:
+                    raise AmountError(f"{len(integers)}")
                 entry.delete(0, END)
-                entry.insert(0, '')
                 file = open("temporary_storage.txt", 'w')
                 file.seek(0)
-                file.write(str(_input))
+                file.write(str(integers)[1:-1])
                 file.close()
                 return True
-            except ValueError:
-                integer_value_error_message(_input)
+            except ValueError as reason:
                 entry.delete(0, END)
+                if str(reason)[41:42] == "0":
+                    integer_value_error_message(str(reason)[41:42], int(str(reason)[45:-1]))
+                else:
+                    integer_value_error_message(str(reason)[41:42])
+            except AmountError as error_message_fragment:
+                entry.delete(0, END)
+                amount_error_message(error_message_fragment, "full")
+            except AmountValueError as error_reason:
+                entry.delete(0, END)
+                amount_value_error_message(error_reason)
 
         entry = Entry(self, bg="black", fg="#00ff00", font=("Times New Roman", 20),
                       selectbackground="white", selectforeground="#ff00ff",
@@ -257,7 +281,7 @@ class FullControlMaxNumberPage(Frame):
 
         confirm_button = Button(self, bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
                                 activeforeground="green", activebackground="black", bd=0, text="Continue",
-                                command=lambda: controller.show_frame(MaxNumberResultsPage)
+                                command=lambda: controller.show_frame(FullControlResultsPage)
                                 if check_if_valid() else None)
         confirm_button.pack(fill=BOTH)
 
@@ -269,6 +293,54 @@ class FullControlMaxNumberPage(Frame):
                                fg="#00ff00", font=("Ink Free", 20), command=clicked_return_button,
                                activeforeground="green", activebackground="black", bd=0)
         return_button.pack(fill=BOTH, side=BOTTOM)
+
+
+class FullControlResultsPage(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent, bg='black')
+
+        def getting_results():
+            file = open('temporary_storage.txt', 'r')
+            string_results = file.read()
+            arguments = list(map(int, string_results.split(', ')))
+            results = int_list_creator(int(arguments[1]), int(arguments[0]))
+            file.close()
+            remove("temporary_storage.txt")
+            text_area.delete("1.0", END)
+            text_area.insert('0.0', "Generated numbers:\n")
+            text_area.insert(END, ', '.join(map(str, results)))
+            text_area.insert(END, "\nGreatest common divisor: ")
+            text_area.insert(END, str(_gcd(results)) + '\n')
+            text_area.config(state=DISABLED)
+            home_button.config(state=ACTIVE)
+            launch_button.config(state=DISABLED)
+
+        def return_to_home():
+            text_area.config(state=NORMAL)
+            text_area.delete("1.0", END)
+            text_area.insert('0.0', text)
+            home_button.config(state=DISABLED)
+            launch_button.config(state=ACTIVE)
+            controller.show_frame(StartPage)
+
+        text = 'Press "Finish" button to get results, or type here for fun'
+
+        text_area = Text(self, font=("Times New Roman", 13), bg="black", fg="#00ff00",
+                         selectbackground="white", selectforeground="#ff00ff",
+                         insertbackground="white", width=55, height=6, wrap=WORD)
+        text_area.insert("0.0", text)
+        text_area.pack(padx=5, pady=10)
+
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+                             activeforeground="green", activebackground="black", bd=0, state=DISABLED,
+                             command=return_to_home, disabledforeground="black")
+        home_button.pack(fill=BOTH, side=BOTTOM)
+
+        launch_button = Button(self, text="Finish", bg="#0c0a0a", fg="#00ff00", font=("Ink Free", 20),
+                               activeforeground="green", activebackground="black", bd=0,
+                               command=getting_results, disabledforeground="black")
+        launch_button.pack(fill=BOTH, side=BOTTOM, pady=1)
 
 
 class CustomMainPage(Frame):
@@ -298,9 +370,8 @@ class CustomMainPage(Frame):
                 if 0 in integers and len(integers) > 1:
                     raise ValueError(f"invalid literal for int() with base 10: '0' '{integers.index(0)}'")
                 if len(integers) < 2:
-                    raise AmountValueError
+                    raise AmountError(f"{len(integers)}")
                 text_area.delete('0.0', END)
-                # text_area.insert('0.0', '')
                 file = open("temporary_storage.txt", 'w')
                 file.seek(0)
                 file.write(str(integers)[1:-1])
@@ -312,8 +383,8 @@ class CustomMainPage(Frame):
                 else:
                     integer_value_error_message(str(reason)[41:42])
                 text_area.delete('0.0', END)
-            except AmountValueError:
-                amount_error_message()
+            except AmountError as error_message_fragment:
+                amount_error_message(error_message_fragment, "custom")
 
         confirm_button = Button(self, text="Confirm", bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
                                 activeforeground="green", activebackground="black", bd=0,
