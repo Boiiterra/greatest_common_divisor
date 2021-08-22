@@ -34,16 +34,18 @@ def amount_value_error_message(_reason):
 
 
 def amount_error_message(amount, _type: str):
-    word = example = ""
+    word = example = args = ""
     if _type == "full":
         word = "two"
         example = "120, 2"
+        args = "First argument is max possible integer,\nsecond - amount" \
+               f"\nBut you entered only {amount}"
     elif _type == "custom":
         word = "multiple"
         example = "12, 6, 24"
+        args = f"\nBut you entered only {amount}"
     message = f"Incorrect input, you are supposed to enter {word} integers " \
-              f"\n(e.g. {example}). First argument is max possible integer,\nsecond - amount" \
-              f"\nBut you entered only {amount}."
+              f"\n(e.g. {example}). {args}."
     showerror(title="Error", message=message)
 
 
@@ -253,7 +255,7 @@ class FullControlPage(Frame):
                         raise AmountValueError(f'{integers[1]}')
                     elif 0 in integers:
                         raise ValueError(f"invalid literal for int() with base 10: '0' '{integers.index(0)}'")
-                if len(integers) != 2:
+                else:
                     raise AmountError(f"{len(integers)}")
                 entry.delete(0, END)
                 file = open("temporary_storage.txt", 'w')
