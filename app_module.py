@@ -409,7 +409,7 @@ class CustomResultsPage(Frame):
             file.close()
             remove("temporary_storage.txt")
             text_area.delete("1.0", END)
-            text_area.insert('0.0', "Entered numbers:\n")
+            text_area.insert('0.0', f"Entered {len(results)} numbers:\n")
             text_area.insert(END, string_results)
             text_area.insert(END, "\nGreatest common divisor: ")
             text_area.insert(END, str(_gcd(results)) + '\n')
