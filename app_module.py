@@ -77,11 +77,11 @@ class StartPage(Frame):
         label = Label(self, text=text, font=("Times New Roman", 17), bg="black", fg="#00ff00")
         label.pack(padx=5, pady=11, fill=BOTH)
 
-        custom_home_button = Button(self, text="\nStart\n", bg="#0a0c0a", fg="#00ff00", font=("Colibri", 30),
-                                    activeforeground="green", activebackground="black", bd=0,
-                                    disabledforeground="black",
-                                    command=lambda: controller.show_frame(MainPage))
-        custom_home_button.pack(fill=BOTH)
+        main_page_button = Button(self, text="\nStart\n", bg="#0a0c0a", fg="#00ff00", font=("Arial", 30),
+                                  activeforeground="green", activebackground="black", bd=0,
+                                  disabledforeground="black",
+                                  command=lambda: controller.show_frame(MainPage))
+        main_page_button.pack(fill=BOTH)
 
 
 class MainPage(Frame):
@@ -99,7 +99,7 @@ class MainPage(Frame):
                          insertbackground="white", width=55, height=5, wrap=WORD)
         text_area.pack(padx=5, pady=2)
 
-        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Colibri", 22),
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Arial", 22),
                              activeforeground="green", activebackground="black", bd=0,
                              command=lambda: controller.show_frame(StartPage))
         home_button.pack(fill=BOTH, side=BOTTOM)
@@ -128,7 +128,7 @@ class MainPage(Frame):
                 text_area.delete("1.0", END)
                 amount_error_message(error_message_fragment, "custom")
 
-        confirm_button = Button(self, text="Confirm", bg="#0a0a0c", fg="#00ff00", font=("Colibri", 22),
+        confirm_button = Button(self, text="Confirm", bg="#0a0a0c", fg="#00ff00", font=("Arial", 22),
                                 activeforeground="green", activebackground="black", bd=0,
                                 command=lambda: controller.show_frame(ResultsPage)
                                 if check_if_valid() else None)
@@ -171,12 +171,12 @@ class ResultsPage(Frame):
         text_area.insert("0.0", text)
         text_area.pack(padx=5, pady=10)
 
-        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Colibri", 24),
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Arial", 24),
                              activeforeground="green", activebackground="black", bd=0, state=DISABLED,
                              command=return_to_home, disabledforeground="black")
         home_button.pack(fill=BOTH, side=BOTTOM)
 
-        launch_button = Button(self, text="Finish", bg="#0a0a0c", fg="#00ff00", font=("Colibri", 24),
+        launch_button = Button(self, text="Finish", bg="#0a0a0c", fg="#00ff00", font=("Arial", 24),
                                activeforeground="green", activebackground="black", bd=0,
                                command=getting_results, disabledforeground="black")
         launch_button.pack(fill=BOTH, side=BOTTOM, pady=1)
