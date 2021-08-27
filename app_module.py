@@ -94,12 +94,12 @@ class StartPage(Frame):
         label = Label(self, text=text, font=("Times New Roman", 16), bg="black", fg="#00ff00")
         label.pack(padx=5, pady=10, fill=BOTH)
 
-        generator_home_button = Button(self, text="Generator", bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 25),
+        generator_home_button = Button(self, text="Generator", bg="#0a0a0c", fg="#00ff00", font=("Colibri", 30),
                                        activeforeground="green", activebackground="black", bd=0,
                                        command=lambda: controller.show_frame(GeneratorHome))
         generator_home_button.pack(fill=BOTH)
 
-        custom_home_button = Button(self, text="Custom", bg="#0a0c0a", fg="#00ff00", font=("Ink Free", 25),
+        custom_home_button = Button(self, text="Custom", bg="#0a0c0a", fg="#00ff00", font=("Colibri", 30),
                                     activeforeground="green", activebackground="black", bd=0,
                                     disabledforeground="black",
                                     command=lambda: controller.show_frame(CustomMainPage))
@@ -116,17 +116,17 @@ class GeneratorHome(Frame):
         label = Label(self, text=text, font=("Times New Roman", 18), bg="black", fg="#00ff00")
         label.pack(padx=5, pady=10, fill=BOTH)
 
-        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Colibri", 23),
                              activeforeground="green", activebackground="black", bd=0,
                              command=lambda: controller.show_frame(StartPage))
         home_button.pack(fill=BOTH, side=BOTTOM)
 
-        full_ctrl_page = Button(self, text="full control", bg="#0a0c0a", fg="#00ff00", font=("Ink Free", 20),
+        full_ctrl_page = Button(self, text="full control", bg="#0a0c0a", fg="#00ff00", font=("Colibri", 23),
                                 activeforeground="green", activebackground="black", bd=0, disabledforeground="black",
                                 command=lambda: controller.show_frame(FullControlPage))
         full_ctrl_page.pack(side=BOTTOM, fill=BOTH, pady=1)
 
-        max_num_page = Button(self, text="max number control", bg="#0c0a0a", fg="#00ff00", font=("Ink Free", 20),
+        max_num_page = Button(self, text="max number control", bg="#0c0a0a", fg="#00ff00", font=("Colibri", 23),
                               activeforeground="green", activebackground="black", bd=0, disabledforeground="black",
                               command=lambda: controller.show_frame(MaxNumberControlPage))
         max_num_page.pack(fill=BOTH)
@@ -169,7 +169,7 @@ class MaxNumberControlPage(Frame):
         entry.config(highlightbackground="green", highlightcolor="light green")
         entry.pack()
 
-        confirm_button = Button(self, bg="#0a0c0a", fg="#00ff00", font=("Ink Free", 20),
+        confirm_button = Button(self, bg="#0a0c0a", fg="#00ff00", font=("Colibri", 23),
                                 activeforeground="green", activebackground="black", bd=0, text="Confirm",
                                 command=lambda: controller.show_frame(MaxNumberResultsPage)
                                 if check_if_valid() else None)
@@ -180,7 +180,7 @@ class MaxNumberControlPage(Frame):
             controller.show_frame(GeneratorHome)
 
         return_button = Button(self, text="Return to previous page", bg="#0a0a0a",
-                               fg="#00ff00", font=("Ink Free", 20), command=clicked_return_button,
+                               fg="#00ff00", font=("Colibri", 23), command=clicked_return_button,
                                activeforeground="green", activebackground="black", bd=0)
         return_button.pack(fill=BOTH, side=BOTTOM)
 
@@ -223,12 +223,12 @@ class MaxNumberResultsPage(Frame):
         text_area.insert("0.0", text)
         text_area.pack(padx=5, pady=10)
 
-        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Colibri", 23),
                              activeforeground="green", activebackground="black", bd=0, state=DISABLED,
                              command=return_to_home, disabledforeground="black")
         home_button.pack(fill=BOTH, side=BOTTOM)
 
-        launch_button = Button(self, text="Finish", bg="#0c0a0a", fg="#00ff00", font=("Ink Free", 20),
+        launch_button = Button(self, text="Finish", bg="#0c0a0a", fg="#00ff00", font=("Colibri", 23),
                                activeforeground="green", activebackground="black", bd=0,
                                command=getting_results, disabledforeground="black")
         launch_button.pack(fill=BOTH, side=BOTTOM, pady=1)
@@ -282,7 +282,7 @@ class FullControlPage(Frame):
         entry.config(highlightbackground="green", highlightcolor="light green")
         entry.pack()
 
-        confirm_button = Button(self, bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
+        confirm_button = Button(self, bg="#0a0a0c", fg="#00ff00", font=("Colibri", 23),
                                 activeforeground="green", activebackground="black", bd=0, text="Continue",
                                 command=lambda: controller.show_frame(FullControlResultsPage)
                                 if check_if_valid() else None)
@@ -293,7 +293,7 @@ class FullControlPage(Frame):
             controller.show_frame(GeneratorHome)
 
         return_button = Button(self, text="Return to previous page", bg="#0a0a0a",
-                               fg="#00ff00", font=("Ink Free", 20), command=clicked_return_button,
+                               fg="#00ff00", font=("Colibri", 23), command=clicked_return_button,
                                activeforeground="green", activebackground="black", bd=0)
         return_button.pack(fill=BOTH, side=BOTTOM)
 
@@ -335,12 +335,12 @@ class FullControlResultsPage(Frame):
         text_area.insert("0.0", text)
         text_area.pack(padx=5, pady=10)
 
-        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Colibri", 23),
                              activeforeground="green", activebackground="black", bd=0, state=DISABLED,
                              command=return_to_home, disabledforeground="black")
         home_button.pack(fill=BOTH, side=BOTTOM)
 
-        launch_button = Button(self, text="Finish", bg="#0c0a0a", fg="#00ff00", font=("Ink Free", 20),
+        launch_button = Button(self, text="Finish", bg="#0c0a0a", fg="#00ff00", font=("Colibri", 23),
                                activeforeground="green", activebackground="black", bd=0,
                                command=getting_results, disabledforeground="black")
         launch_button.pack(fill=BOTH, side=BOTTOM, pady=1)
@@ -361,7 +361,7 @@ class CustomMainPage(Frame):
                          insertbackground="white", width=55, height=5, wrap=WORD)
         text_area.pack(padx=5, pady=2)
 
-        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Colibri", 22),
                              activeforeground="green", activebackground="black", bd=0,
                              command=lambda: controller.show_frame(StartPage))
         home_button.pack(fill=BOTH, side=BOTTOM)
@@ -390,7 +390,7 @@ class CustomMainPage(Frame):
                 text_area.delete("1.0", END)
                 amount_error_message(error_message_fragment, "custom")
 
-        confirm_button = Button(self, text="Confirm", bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
+        confirm_button = Button(self, text="Confirm", bg="#0a0a0c", fg="#00ff00", font=("Colibri", 22),
                                 activeforeground="green", activebackground="black", bd=0,
                                 command=lambda: controller.show_frame(CustomResultsPage)
                                 if check_if_valid() else None)
@@ -433,12 +433,12 @@ class CustomResultsPage(Frame):
         text_area.insert("0.0", text)
         text_area.pack(padx=5, pady=10)
 
-        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Ink Free", 20),
+        home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Colibri", 23),
                              activeforeground="green", activebackground="black", bd=0, state=DISABLED,
                              command=return_to_home, disabledforeground="black")
         home_button.pack(fill=BOTH, side=BOTTOM)
 
-        launch_button = Button(self, text="Finish", bg="#0a0a0c", fg="#00ff00", font=("Ink Free", 20),
+        launch_button = Button(self, text="Finish", bg="#0a0a0c", fg="#00ff00", font=("Colibri", 23),
                                activeforeground="green", activebackground="black", bd=0,
                                command=getting_results, disabledforeground="black")
         launch_button.pack(fill=BOTH, side=BOTTOM, pady=1)
