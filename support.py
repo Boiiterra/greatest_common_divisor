@@ -1,6 +1,3 @@
-"""Module created by TerraBoii where you can find some useful functions."""
-
-
 def every_divisor(integer: int):
     """Finds all divisors given number has."""
     divisors = []
