@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk, Frame, Button, BOTH, BOTTOM, Label, END, NORMAL, ACTIVE, DISABLED, Text, WORD
 from tkinter.messagebox import showerror
 from support import _gcd
 
