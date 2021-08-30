@@ -19,12 +19,8 @@ def _gcd(_list: list[int]):
     divisors = every_divisor(min(_list))  # We will find every divisor of the smallest number in the list
     _list.pop(_list.index(min(_list)))  # Deleting smallest element because we know all it's divisors
     for divisor in divisors:  # in this block we are looking for greatest common divisor
-        counter = 0
         for element in _list:
-            if element % divisor == 0:
-                counter += 1
-            else:
+            if element % divisor != 0:  # Checking if we nee to start new cycle
                 break
-        else:  # When we finished going through list given by user we check if we need to change the gcd
-            if counter == len(_list):  # Checking if we need to change the answer and ending loop
-                return divisor
+        else:  # If cycle is finished without breaking returning answer
+            return divisor
