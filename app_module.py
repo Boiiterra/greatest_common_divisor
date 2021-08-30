@@ -1,4 +1,4 @@
-from tkinter import Tk, Frame, Button, BOTH, BOTTOM, Label, END, NORMAL, ACTIVE, DISABLED, Text, WORD
+from tkinter import Tk, Frame, Button, Label, Text, BOTH, BOTTOM, END, NORMAL, ACTIVE, DISABLED, WORD
 from tkinter.messagebox import showerror
 from support import _gcd
 
@@ -31,6 +31,7 @@ class MainAppBody(Tk):
         self.title("GCD app")
         self.iconbitmap("icon.ico")
         self.resizable(0, 0)
+
         container = Frame(self, bg="black")
         container.pack(side="top", fill="both", expand=True)
 
@@ -63,8 +64,8 @@ class StartPage(Frame):
         text = "This program takes user's\n" \
                "integers and finds their greatest common divisor"
 
-        label = Label(self, text=text, font=("Times New Roman", 18), bg="black", fg="#00ff00")
-        label.pack(padx=5, pady=11, fill=BOTH)
+        app_info = Label(self, text=text, font=("Times New Roman", 18), bg="black", fg="#00ff00")
+        app_info.pack(padx=5, pady=11, fill=BOTH)
 
         main_page_button = Button(self, text="\nStart\n", bg="#0a0c0a", fg="#00ff00", font=("Arial", 30),
                                   activeforeground="green", activebackground="black", bd=0,
@@ -79,49 +80,48 @@ class MainPage(Frame):
         Frame.__init__(self, parent, bg="Black")
 
         def reset():
-            text_area.config(state=NORMAL)
-            text_area.delete("0.0", END)
+            input_and_results.config(state=NORMAL)
+            input_and_results.delete("0.0", END)
             confirm_button.config(state=ACTIVE, bg="#0a0a0c", text="Confirm")
             info_plus_reset.config(text=text, state=DISABLED, bg="black")
 
         def return_to_home():
-            text_area.config(state=NORMAL)
-            text_area.delete("0.0", END)
+            input_and_results.config(state=NORMAL)
+            input_and_results.delete("0.0", END)
             confirm_button.config(state=ACTIVE, bg="#0a0a0c", text="Confirm")
             info_plus_reset.config(text=text, state=DISABLED, bg="black")
             controller.show_frame(StartPage)
 
         def check_and_show():
-            _input_str = text_area.get('0.0', END)
+            _input_str = input_and_results.get('0.0', END)
             try:
                 integers = list(map(int, _input_str.split(', ')))
                 if 0 in integers and len(integers) > 1:
                     raise ValueError(f"invalid literal for int() with base 10: '0' '{integers.index(0)}'")
                 if len(integers) < 2:
                     raise AmountError(f"{len(integers)}")
-                text_area.delete('0.0', END)
+                input_and_results.delete('0.0', END)
                 show_results(_input_str)
-                return True
             except ValueError as reason:
-                text_area.delete('0.0', END)
+                input_and_results.delete('0.0', END)
                 if str(reason)[41:42] == "0":
                     integer_value_error_message(str(reason)[41:42], int(str(reason)[45:-1]))
                 else:
                     integer_value_error_message(str(reason)[41:-1])
             except AmountError as error_message_fragment:
                 print(error_message_fragment)
-                text_area.delete("1.0", END)
+                input_and_results.delete("0.0", END)
                 amount_error_message(error_message_fragment)
 
         def show_results(string_numbers: str):
             integers = list(map(int, string_numbers.split(', ')))
-            text_area.insert("0.0", "Greatest common divisor: ")
-            text_area.insert(END, _gcd(integers))
-            text_area.insert(END, f"\nEntered {len(integers)} numbers:\n")
-            text_area.insert(END, string_numbers)
-            text_area.config(state=DISABLED)
-            confirm_button.config(state=DISABLED, bg="Black", text="Now you can return home or reset field")
-            info_plus_reset.config(text="Reset", state=ACTIVE, bg="#0c0a0a")
+            input_and_results.insert("0.0", "Greatest common divisor: ")
+            input_and_results.insert(END, _gcd(integers))
+            input_and_results.insert(END, f"\nEntered {len(integers)} numbers:\n")
+            input_and_results.insert(END, string_numbers)
+            input_and_results.config(state=DISABLED)
+            confirm_button.config(state=DISABLED, bg="Black", text="Now you can return home or reset page")
+            info_plus_reset.config(text="Reset page", state=ACTIVE, bg="#0c0a0a")
 
         text = "Here you can enter your integers (e.g. 120, 20)"
 
@@ -131,10 +131,10 @@ class MainPage(Frame):
                                  command=reset)
         info_plus_reset.pack(fill=BOTH)
 
-        text_area = Text(self, font=("Times New Roman", 13), bg="black", fg="#00ff00",
-                         selectbackground="white", selectforeground="#ff00ff",
-                         insertbackground="white", width=55, height=5, wrap=WORD)
-        text_area.pack(padx=5, pady=2)
+        input_and_results = Text(self, font=("Times New Roman", 13), bg="black", fg="#00ff00",
+                                 selectbackground="white", selectforeground="#ff00ff",
+                                 insertbackground="white", width=55, height=5, wrap=WORD)
+        input_and_results.pack(padx=5, pady=2)
 
         home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Arial", 21),
                              activeforeground="green", activebackground="black", bd=0,
