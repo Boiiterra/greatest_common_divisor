@@ -88,6 +88,7 @@ class MainPage(Frame):
             text_area.config(state=NORMAL)
             text_area.delete("0.0", END)
             confirm_button.config(state=ACTIVE, bg="#0a0a0c", text="Confirm")
+            info_plus_reset.config(text=text, state=DISABLED, bg="black")
             controller.show_frame(StartPage)
 
         def check_and_show():
@@ -114,10 +115,10 @@ class MainPage(Frame):
 
         def show_results(string_numbers: str):
             integers = list(map(int, string_numbers.split(', ')))
-            text_area.insert('0.0', f"Entered {len(integers)} numbers:\n")
-            text_area.insert(END, string_numbers)
-            text_area.insert(END, "\nGreatest common divisor: ")
+            text_area.insert("0.0", "Greatest common divisor: ")
             text_area.insert(END, _gcd(integers))
+            text_area.insert(END, f"\nEntered {len(integers)} numbers:\n")
+            text_area.insert(END, string_numbers)
             text_area.config(state=DISABLED)
             confirm_button.config(state=DISABLED, bg="Black", text="Now you can return home or reset field")
             info_plus_reset.config(text="Reset", state=ACTIVE, bg="#0c0a0a")
