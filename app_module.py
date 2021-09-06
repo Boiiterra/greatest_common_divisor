@@ -1,4 +1,4 @@
-from tkinter import Tk, Frame, Button, Label, Text, BOTH, BOTTOM, END, NORMAL, ACTIVE, DISABLED, WORD
+from tkinter import Tk, Frame, Button, Label, Text, BOTH, BOTTOM, END, NORMAL, DISABLED, WORD
 from tkinter.messagebox import showerror
 from support import _gcd
 
@@ -82,13 +82,13 @@ class MainPage(Frame):
         def reset():
             input_and_results.config(state=NORMAL)
             input_and_results.delete("0.0", END)
-            confirm_button.config(state=ACTIVE, bg="#0a0a0c", text="Confirm")
+            confirm_button.config(state=NORMAL, bg="#0a0a0c", text="Confirm")
             info_plus_reset.config(text=text, state=DISABLED, bg="black")
 
         def return_to_home():
             input_and_results.config(state=NORMAL)
             input_and_results.delete("0.0", END)
-            confirm_button.config(state=ACTIVE, bg="#0a0a0c", text="Confirm")
+            confirm_button.config(state=NORMAL, bg="#0a0a0c", text="Confirm")
             info_plus_reset.config(text=text, state=DISABLED, bg="black")
             controller.show_frame(StartPage)
 
@@ -121,7 +121,7 @@ class MainPage(Frame):
             input_and_results.insert(END, string_numbers)
             input_and_results.config(state=DISABLED)
             confirm_button.config(state=DISABLED, bg="Black", text="Now you can return home or reset page")
-            info_plus_reset.config(text="Reset page", state=ACTIVE, bg="#0c0a0a")
+            info_plus_reset.config(text="Reset page", state=NORMAL, bg="#0c0a0a")
 
         text = "Here you can enter your integers (e.g. 120, 20)"
 
