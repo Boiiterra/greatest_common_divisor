@@ -1,6 +1,6 @@
-from tkinter import Tk, Frame, Button, Label, Text, BOTH, BOTTOM, END, NORMAL, DISABLED, WORD
+from tkinter import TclError, Tk, Frame, Button, Label, Text, BOTH, BOTTOM, END, NORMAL, DISABLED, WORD
 from tkinter.messagebox import showerror
-from support import _gcd
+from support import gcdC
 
 
 class AmountError(Exception):
@@ -28,8 +28,11 @@ class MainAppBody(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
         self.geometry("500x250")
+        try:
+            self.iconbitmap("icon.ico")
+        except TclError: 
+            print("Unable to find icon file")
         self.title("GCD app")
-        self.iconbitmap("icon.ico")
         self.resizable(0, 0)
 
         container = Frame(self, bg="black")
@@ -69,7 +72,7 @@ class StartPage(Frame):
 
         main_page_button = Button(self, text="\nStart\n", bg="#0a0c0a", fg="#00ff00", font=("Arial", 30),
                                   activeforeground="green", activebackground="black", bd=0,
-                                  disabledforeground="black",
+                                  disabledforeground="black", highlightbackground="#000000",
                                   command=lambda: controller.show_frame(MainPage))
         main_page_button.pack(fill=BOTH)
 
@@ -116,7 +119,7 @@ class MainPage(Frame):
         def show_results(string_numbers: str):
             integers = list(map(int, string_numbers.split(', ')))
             input_and_results.insert("0.0", "Greatest common divisor: ")
-            input_and_results.insert(END, _gcd(integers))
+            input_and_results.insert(END, gcdC(integers))
             input_and_results.insert(END, f"\nEntered {len(integers)} numbers:\n")
             input_and_results.insert(END, string_numbers)
             input_and_results.config(state=DISABLED)
@@ -128,20 +131,25 @@ class MainPage(Frame):
         info_plus_reset = Button(self, text=text, font=("Times New Roman", 17), bg="black", fg="#00ff00",
                                  activeforeground="green", activebackground="black",
                                  disabledforeground="#00ff00", bd=0, state=DISABLED,
-                                 command=reset)
+                                 command=reset, highlightbackground="#000000")
         info_plus_reset.pack(fill=BOTH)
 
         input_and_results = Text(self, font=("Times New Roman", 13), bg="black", fg="#00ff00",
                                  selectbackground="white", selectforeground="#ff00ff",
-                                 insertbackground="white", width=55, height=5, wrap=WORD)
+                                 insertbackground="white", width=55, height=5, wrap=WORD,
+                                 highlightbackground="#000000")
         input_and_results.pack(padx=5, pady=2)
 
         home_button = Button(self, text="Return home", bg="#0a0a0a", fg="#00ff00", font=("Arial", 21),
                              activeforeground="green", activebackground="black", bd=0,
-                             command=return_to_home)
+                             command=return_to_home, highlightbackground="#000000")
         home_button.pack(fill=BOTH, side=BOTTOM)
 
         confirm_button = Button(self, text="Confirm", bg="#0a0a0c", fg="#00ff00", font=("Arial", 21),
                                 activeforeground="green", activebackground="black", bd=0,
-                                command=check_and_show, disabledforeground="#00ff00")
+                                command=check_and_show, disabledforeground="#00ff00", highlightbackground="#000000")
         confirm_button.pack(fill=BOTH)
+
+if __name__ == "__main__":
+    app = MainAppBody()
+    app.mainloop()
