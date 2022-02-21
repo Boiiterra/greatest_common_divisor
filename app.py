@@ -1,6 +1,6 @@
 from tkinter import TclError, Tk, Frame, Button, Label, Text, BOTH, BOTTOM, END, NORMAL, DISABLED, WORD
 from tkinter.messagebox import showerror
-from support import gcdC
+from support import _gcd
 
 
 class AmountError(Exception):
@@ -119,7 +119,7 @@ class MainPage(Frame):
         def show_results(string_numbers: str):
             integers = list(map(int, string_numbers.split(', ')))
             input_and_results.insert("0.0", "Greatest common divisor: ")
-            input_and_results.insert(END, gcdC(integers))
+            input_and_results.insert(END, _gcd(integers))
             input_and_results.insert(END, f"\nEntered {len(integers)} numbers:\n")
             input_and_results.insert(END, string_numbers)
             input_and_results.config(state=DISABLED)
